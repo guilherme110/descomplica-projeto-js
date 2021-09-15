@@ -1,0 +1,34 @@
+Arguments: 
+  /usr/local/Cellar/node/16.1.0/bin/node /usr/local/Cellar/yarn/1.22.10/libexec/bin/yarn.js add express
+
+PATH: 
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Users/guilherme/Applications/flutter/bin
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  16.1.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: getaddrinfo ENOTFOUND atf.intranet.bb.com.br
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:69:26)
+
+npm manifest: 
+  {
+    "name": "primeiroProjeto",
+    "version": "1.0.0",
+    "description": "Projeto de testes Descomplica",
+    "main": "index.js",
+    "author": "Guilherme Soares",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
