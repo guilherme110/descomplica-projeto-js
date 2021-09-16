@@ -1,2 +1,2 @@
 # descomplica-projetoReact
-Projeto em React para a pós do descomplica
+Projeto em JS e React para a pós do descomplica
