@@ -1,6 +1,9 @@
 const express = require('express');
+const { sign } = require('jsonwebtoken');
 const multer = require('multer');
+const { ApplicationError } = require('./error/ApplicationError');
 const uploadConfig = require('./upload/uploadConfig');
+const { validaToken } = require('./validaToken');
 
 const app = express();
 const uploadMidleware = multer(uploadConfig);
@@ -33,13 +36,12 @@ app.post('/disciplinas', uploadMidleware.single('avatar'), (request, response) =
     return response.json(body);
 });
 
-app.put('/disciplinas/:id', (request, response) => {
+//Utilizando o token para validação
+app.put('/disciplinas/:id', validaToken, (request, response) => {
     const { id } = request.params;
 
     if (id != 'tecnologia') {
-        return response.status(400).json({
-            message: "Disciplina não encontrada!"
-        });
+       throw new ç('Disciplina não encontrada.', 404);
     }
 
     return response.json({id});
@@ -50,5 +52,43 @@ app.delete('/disciplinas', (request, response) => {
         message: 'Nessa rota devo remover uma disciplina'
     });
 });
+
+/**
+ * Rotas de autenticação
+ */
+app.post('/autenticacao', (request, response) => {
+    const { email, senha } = request.body;
+
+    //Validações quanto a e-mail e senha
+
+    const idUsuario = "XPTO";   
+        const token = sign({
+            //Não incluir informações sensiveis (email, senha, ...)
+            //O comum é incluir permissões, etc...
+        }, 'minha-chave-secreta', {
+            subject: idUsuario,
+            expiresIn: '1d'
+        });
+    
+ 
+    
+    return response.json({token});
+});
+
+/**
+ * Midleware para tratamento de erros
+ */
+app.use((error, request, response, next) => {
+    if (error instanceof ApplicationError) {
+        return response.status(error.httpStatusCode).json({
+            message: error.mensagem
+        });
+    }
+
+    console.log(error);
+    return response.status(500).json({
+        message: "Não foi possível executar sua requisição. Tente novamente"
+    });
+})
 
 app.listen(3000);
